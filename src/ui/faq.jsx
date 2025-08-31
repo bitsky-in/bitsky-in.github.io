@@ -2,18 +2,12 @@ import { Container, Section } from "../components/components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
-// --- FAQ Item with animation ------------------------------------------------
+// --- FAQ Item ---------------------------------------------------------------
 const FAQItem = ({ q, a }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4 }}
-      className="rounded-xl border p-5 bg-white/40"
-    >
+    <div className="rounded-xl border p-5 bg-white/40">
       <button
         onClick={() => setOpen(!open)}
         className="flex w-full items-center justify-between font-semibold text-left"
@@ -27,49 +21,70 @@ const FAQItem = ({ q, a }) => {
         </motion.span>
       </button>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {open && (
-          <motion.p
+          <motion.div
+            key="content"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="mt-3 text-slate-700"
+            className="mt-3 text-slate-700 overflow-hidden"
           >
             {a}
-          </motion.p>
+          </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 };
 
 // --- FAQ Section ------------------------------------------------------------
-const FAQ = () => (
-  <Section id="faq" className="bg-white">
-    <Container>
-      <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="text-3xl font-black sm:text-4xl"
-      >
-        bitsky FAQs
-      </motion.h2>
+const FAQ = () => {
+  const faqList = [
+    {
+      q: "What is bitsky?",
+      a: "An IT studio crafting software for institutions and organisations to streamline operations and improve efficiency.",
+    },
+    {
+      q: "What services do you offer?",
+      a: "Custom software and Android apps, plus training for students in future-ready technologies.",
+    },
+    // Add more FAQs here if needed
+  ];
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
-        <FAQItem
-          q="What is bitsky?"
-          a="An IT studio crafting software for institutions and organisations to streamline operations and improve efficiency."
-        />
-        <FAQItem
-          q="What services do you offer?"
-          a="Custom software and Android apps, plus training for students in future-ready technologies."
-        />
-      </div>
-    </Container>
-  </Section>
-);
+  return (
+    <Section id="faq" className="bg-white">
+      <Container>
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl font-black sm:text-4xl"
+        >
+          bitsky FAQs
+        </motion.h2>
+
+        <motion.div
+          className="mt-8 grid gap-4 md:grid-cols-2"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.15 } },
+            hidden: {},
+          }}
+        >
+          {faqList.map((faq, i) => (
+            <motion.div key={i} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4 } } }}>
+              <FAQItem q={faq.q} a={faq.a} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </Container>
+    </Section>
+  );
+};
 
 export { FAQ };

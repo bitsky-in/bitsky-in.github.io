@@ -1,13 +1,36 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { Container, Pill, Button, Card } from "../components/components";
 
-// --- Hero -------------------------------------------------------------------
+// --- Feature data ---
+const FEATURES = [
+  {
+    icon: "✅",
+    title: "Accreditation-ready",
+    text: "Built with AICTE/NAAC/NBA workflows in mind.",
+  },
+  {
+    icon: "🖼️",
+    title: "Geo-tagged evidence",
+    text: "Capture, organise and search proof in seconds.",
+  },
+  {
+    icon: "📱",
+    title: "Mobile-first",
+    text: "Fast Android apps your team actually enjoys using.",
+  },
+];
+
+// --- Motion variants ---
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, delay },
+});
+
 const Hero = () => {
   return (
-    <div
-      id="top"
-      className="relative isolate overflow-hidden min-h-[calc(100vh-4rem)] flex items-center"
-    >
+    <div id="top" className="relative isolate overflow-hidden flex items-center h-screen">
       {/* Background Video */}
       <video
         autoPlay
@@ -20,73 +43,65 @@ const Hero = () => {
       </video>
 
       {/* Gradient overlay */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/90 via-white/30 to-emerald-50/50 backdrop-blur-sm" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-sky-400/20 via-cyan-300/20 to-emerald-400/20 backdrop-blur-sm" />
 
       {/* Content */}
-      <Container className="flex flex-col items-center gap-10 py-16 sm:py-20">
+      <Container className="flex flex-col items-center gap-12 py-16 sm:py-20">
         {/* Text Section */}
-        <div className="flex flex-col items-center text-center">
-          <Pill>✨ Building the future, bit by bit</Pill>
+        <div className="flex flex-col items-center text-center space-y-4">
+          {/* Tagline */}
+          <motion.div {...fadeUp(0.2)}>
+            <Pill className="text-white bg-sky-600/80">✨ Building the future, bit by bit</Pill>
+          </motion.div>
 
-          <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-6xl">
+          {/* Headline */}
+          <motion.h1
+            {...fadeUp(0.3)}
+            className="text-4xl sm:text-6xl font-black tracking-tight text-white"
+          >
             Campus Operations, Simplified
-          </h1>
+          </motion.h1>
 
-          <p className="mt-4 max-w-2xl text-balance text-lg leading-relaxed text-slate-600">
-            We craft focused software for institutions so educators can spend
-            more time on teaching and research—not on paperwork.
-          </p>
+          {/* Description */}
+          <motion.p {...fadeUp(0.5)} className="max-w-2xl text-lg leading-relaxed text-white/90">
+            We craft focused software for institutions so educators can spend more time on teaching
+            and research — not on paperwork.
+          </motion.p>
 
           {/* Buttons */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <motion.div {...fadeUp(0.7)} className="flex flex-wrap justify-center gap-4 mt-8">
             <Button
               href="#about"
-              className="bg-sky-600 text-white hover:bg-sky-700"
+              className="bg-gradient-to-r from-sky-600 to-cyan-600 text-white hover:opacity-90"
             >
               Learn more ➡️
             </Button>
             <Button
               href="#contact"
-              className="bg-white text-sky-700 ring-1 ring-sky-200 hover:ring-sky-300"
+              className="bg-white/80 backdrop-blur-sm text-sky-700 ring-1 ring-sky-200 hover:bg-white hover:ring-sky-300"
             >
               Talk to us ☎️
             </Button>
-          </div>
+          </motion.div>
         </div>
 
         {/* Feature Cards */}
-        <div className="w-full">
-          <div className="relative mx-auto mt-6 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-3">
-            {[
-              {
-                icon: "✅",
-                title: "Accreditation-ready",
-                text: "Built with AICTE/NAAC/NBA workflows in mind.",
-              },
-              {
-                icon: "🖼️",
-                title: "Geo-tagged evidence",
-                text: "Capture, organise and search proof in seconds.",
-              },
-              {
-                icon: "📱",
-                title: "Mobile-first",
-                text: "Fast Android apps your team actually enjoys using.",
-              },
-            ].map((item, index) => (
+        <motion.div {...fadeUp(0.9)} className="w-full mt-6">
+          <div className="relative mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-3">
+            {FEATURES.map(({ icon, title, text }, index) => (
               <Card
                 key={index}
-                className="flex items-start gap-3 hover:scale-105 transition-transform duration-300"
+                className="flex items-start gap-3 p-4 rounded-2xl bg-white/70 backdrop-blur-md shadow-lg hover:scale-105 transition-transform duration-300"
               >
-                <span className="mt-1 text-xl">{item.icon}</span>
+                <span className="mt-1 text-xl">{icon}</span>
                 <div>
-                  <p className="font-semibold">{item.title}</p>
-                  <p className="text-sm text-slate-600">{item.text}</p>
+                  <p className="font-semibold text-slate-900">{title}</p>
+                  <p className="text-sm text-slate-800">{text}</p>
                 </div>
               </Card>
             ))}
           </div>
-        </div>
+        </motion.div>
       </Container>
     </div>
   );

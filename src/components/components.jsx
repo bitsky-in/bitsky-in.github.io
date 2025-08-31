@@ -10,11 +10,14 @@ const Section = ({ id, children, className = "" }) => (
   </section>
 );
 
-const Pill = ({ children }) => (
-  <span className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium backdrop-blur-sm">
+const Pill = ({ children, className = "" }) => (
+  <span
+    className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium backdrop-blur-sm ${className}`}
+  >
     {children}
   </span>
 );
+
 
 const Button = ({ as: As = "a", href = "#", children, className = "", ...rest }) => (
   <As
@@ -34,4 +37,13 @@ const Card = ({ children, className = "" }) => (
   </div>
 );
 
-export { Container, Section, Pill, Button, Card };
+const PicCard = ({ children, className = "" }) => (
+  <div
+    className={`rounded-2xl border bg-white/70 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/60 ${className}`}
+  >
+    {children}
+  </div>
+);
+
+
+export { Container, Section, Pill, Button, Card, PicCard };
